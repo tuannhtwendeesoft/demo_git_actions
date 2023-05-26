@@ -13,8 +13,7 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: run with root
-        run: sudo su
+
       - name: Check out repository code
         uses: actions/checkout@v3
         
