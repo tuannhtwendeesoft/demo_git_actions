@@ -21,7 +21,7 @@ jobs:
         run: docker build -t test .
 
       - name: Stop docker container
-        run: docker rm test
+        run: docker stop test || true && docker rm test || true
 
       - name: Run docker container
         run: docker run -dp 8081:8081 --name=test test
