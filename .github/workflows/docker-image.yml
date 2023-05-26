@@ -1,0 +1,24 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+        
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag testd:$(date +%s)
+      
+      - name: Run docker contaner
+        run: docker run -dp 8081:8081 --name=test test
+      
