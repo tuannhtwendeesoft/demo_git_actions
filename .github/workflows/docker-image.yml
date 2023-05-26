@@ -17,8 +17,8 @@ jobs:
         uses: actions/checkout@v3
         
       - name: Build the Docker image
-        run: docker build . --file Dockerfile --tag testd:$(date +%s)
+        run: docker build . --file Dockerfile --tag test:$(date +%s)
       
-      - name: Run docker contaner
+      - name: Run docker container
         run: docker run -dp 8081:8081 --name=test test
       
