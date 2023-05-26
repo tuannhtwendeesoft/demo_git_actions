@@ -20,6 +20,9 @@ jobs:
       - name: Build the Docker image
         run: docker build -t test .
 
+      - name: Stop docker container
+        run: docker rm test
+
       - name: Run docker container
         run: docker run -dp 8081:8081 --name=test test
       
