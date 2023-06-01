@@ -7,10 +7,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CheckController {
     @Value("${redis.port}")
-    private String texxt;
+    private String text;
 
     @GetMapping(value = "health-check")
     public String healCheck() {
-        return "check check check hello kitty" + texxt;
+        return "check check check hello kitty" + text;
     }
 }
