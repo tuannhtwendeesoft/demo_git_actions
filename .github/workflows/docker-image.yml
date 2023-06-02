@@ -38,7 +38,7 @@ jobs:
 
 
     deploy:
-      needs: [build, test]
+      needs: [build]
       runs-on: self hosted
       steps:
         - name: Stop docker container
