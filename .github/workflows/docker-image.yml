@@ -17,7 +17,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Send email
-        if: steps.build.checkout == 'failure'
+        if: steps.checkout.outcome == 'failure'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -63,7 +63,7 @@ jobs:
         run: mvn test
 
       - name: Send email
-        if: steps.build.test == 'failure'
+        if: steps.test.outcome == 'failure'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -82,10 +82,11 @@ jobs:
         run: docker stop test || true && docker rm test || true
 
       - name: Run docker container
+        id: run
         run: docker run -dp 8081:8081 --name=test test
 
-      - name: Send email
-        if: success
+      - name: Send email success
+        if: steps.run.outcome == 'success'
         uses: dawidd6/action-send-mail@v3
         with:
           server_address: smtp.gmail.com
@@ -95,3 +96,15 @@ jobs:
           to: foxbeel@gmail.com
           from: Twendee Soft
           body:  Build job of ${{github.repository}} completed successfully!
+
+      - name: Send email success
+        if: steps.run.outcome == 'failure'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Build failure
+          to: foxbeel@gmail.com
+          from: Twendee Soft
+          body: Build job of ${{github.repository}} failure, because cannot run docker container!
