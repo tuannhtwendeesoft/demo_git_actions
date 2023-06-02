@@ -1,6 +1,5 @@
 package com.example.demo_git_actions;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +15,6 @@ public class CheckController {
                 Date: %s
                 """.formatted("Nguyễn Hữu Tuấn 12", new Date());
 
-        return "check check check hello kitty" + text;
+        return "check check check " + text;
     }
 }
