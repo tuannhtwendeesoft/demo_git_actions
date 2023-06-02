@@ -13,16 +13,40 @@ jobs:
     steps:
 
       - name: Check out repository code
+        id: checkout
         uses: actions/checkout@v3
 
+      - name: Send email
+        if: step.build.checkout == 'failure'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Build failure
+          to: foxbeel@gmail.com
+          from: Twendee Soft
+          body: Build job of ${{github.repository}} failure, because cannot checkout
   build:
     needs: setup
     runs-on: self-hosted
 
     steps:
       - name: Build the Docker image
+        id: build
         run: docker build -t test .
 
+      - name: Send email
+        if: step.build.outcome == 'failure'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Build failure
+          to: foxbeel@gmail.com
+          from: Twendee Soft
+          body: Build job of ${{github.repository}} failure, because build docker error
 
   test:
     needs: setup
@@ -34,8 +58,21 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      - name: Build with Maven
+      - name: Test with Maven
+        id: test
         run: mvn test
+
+      - name: Send email
+        if: step.build.test == 'failure'
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Build failure
+          to: foxbeel@gmail.com
+          from: Twendee Soft
+          body: Build job of ${{github.repository}} failure, because test failure
 
   deploy:
     needs: [build, test]
@@ -46,4 +83,15 @@ jobs:
 
       - name: Run docker container
         run: docker run -dp 8081:8081 --name=test test
-      
+
+      - name: Send email
+        if: success
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: Build failure
+          to: foxbeel@gmail.com
+          from: Twendee Soft
+          body:  Build job of ${{github.repository}} completed successfully!
