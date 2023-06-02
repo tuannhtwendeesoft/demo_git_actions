@@ -14,7 +14,7 @@ public class CheckController {
         String text = """
                 Name: %s
                 Date: %s
-                """.formatted("Nguyễn Hữu Tuấn", new Date());
+                """.formatted("Nguyễn Hữu Tuấn 12", new Date());
 
         return "check check check hello kitty" + text;
     }
