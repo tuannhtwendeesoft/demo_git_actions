@@ -37,13 +37,13 @@ jobs:
 #        run: mvn test
 
 
-  deploy:
-    needs: [build, test]
-    runs-on: self hosted
-    steps:
-      - name: Stop docker container
-        run: docker stop test || true && docker rm test || true
+    deploy:
+      needs: [build, test]
+      runs-on: self hosted
+      steps:
+        - name: Stop docker container
+          run: docker stop test || true && docker rm test || true
 
-      - name: Run docker container
-        run: docker run -dp 8081:8081 --name=test test
+        - name: Run docker container
+          run: docker run -dp 8081:8081 --name=test test
       
