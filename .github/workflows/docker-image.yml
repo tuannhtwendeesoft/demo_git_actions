@@ -15,6 +15,7 @@ jobs:
       - name: Check out repository code
         id: checkout
         uses: actions/checkout@v3
+        continue-on-error: true
 
       - name: Send email
         if: steps.checkout.outcome == 'failure'
@@ -35,6 +36,7 @@ jobs:
       - name: Build the Docker image
         id: build
         run: docker build -t test .
+        continue-on-error: true
 
       - name: Send email
         if: steps.build.outcome == 'failure'
@@ -61,6 +63,7 @@ jobs:
       - name: Test with Maven
         id: test
         run: mvn test
+        continue-on-error: true
 
       - name: Send email
         if: steps.test.outcome == 'failure'
@@ -84,6 +87,7 @@ jobs:
       - name: Run docker container
         id: run
         run: docker run -dp 8081:8081 --name=test test
+        continue-on-error: true
 
       - name: Send email success
         if: steps.run.outcome == 'success'
