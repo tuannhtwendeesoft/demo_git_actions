@@ -1,5 +1,6 @@
 package com.example.demo_git_actions;
 
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -8,6 +9,9 @@ class DemoGitActionsApplicationTests {
 
     @Test
     void contextLoads() {
+        Boolean check = true;
+        Assertions.assertThat(check)
+                .isEqualTo(true);
     }
 
 }
