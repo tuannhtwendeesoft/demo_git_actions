@@ -9,7 +9,7 @@ class DemoGitActionsApplicationTests {
 
     @Test
     void contextLoads() {
-        Boolean check = true;
+        Boolean check = false;
         Assertions.assertThat(check)
                 .isEqualTo(true);
     }
