@@ -15,6 +15,6 @@ public class CheckController {
                 Date: %s
                 """.formatted("Nguyễn Hữu Tuấn 12", new Date());
 
-        return "check check check " + text;
+        return "check check check hello kitty " + text;
     }
 }
