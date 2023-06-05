@@ -30,7 +30,7 @@ jobs:
           to: foxbeel@gmail.com
           from: Twendee Soft
           body: Build job of ${{github.repository}} failure, because cannot checkout
-      - name: stop work flow
+      - name: Stop work flow
         if: steps.send-mail-checkout.outcome == 'success'
         run: foo
   build:
@@ -57,7 +57,7 @@ jobs:
           from: Twendee Soft
           body: Build job of ${{github.repository}} failure, because build docker error
 
-      - name: stop work flow
+      - name: Stop work flow
         if: steps.send-email-build-docker.outcome == 'success'
         run: foo
 
@@ -90,7 +90,7 @@ jobs:
           from: Twendee Soft
           body: Build job of ${{github.repository}} failure, because test failure
 
-      - name: stop work flow
+      - name: Stop work flow
         if: steps.send-email-test.outcome == 'success'
         run: foo
   deploy:
@@ -113,10 +113,14 @@ jobs:
           server_port: 587
           username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
-          subject: Build failure
+          subject: Build success
           to: foxbeel@gmail.com
           from: Twendee Soft
           body:  Build job of ${{github.repository}} completed successfully!
+
+      - name: Clear docker image not use
+        if: steps.run.outcome == 'success'
+        run: docker image prune -a
 
       - name: Send email failure
         if: steps.run.outcome == 'failure'
