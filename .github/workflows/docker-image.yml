@@ -118,9 +118,9 @@ jobs:
           from: Twendee Soft
           body:  Build job of ${{github.repository}} completed successfully!
 
-      - name: Clear docker image not use
+      - name: Remove docker image not use
         if: steps.run.outcome == 'success'
-        run: docker image prune -a
+        run: docker image prune -af
 
       - name: Send email failure
         if: steps.run.outcome == 'failure'
